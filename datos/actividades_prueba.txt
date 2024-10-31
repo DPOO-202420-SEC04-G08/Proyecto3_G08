@@ -1,0 +1,17 @@
+# LearningPath
+LearningPath;Programación Avanzada;Curso avanzado de programación;3;200;4.9;Desarrollar habilidades avanzadas de programación
+
+# Actividades en el LearningPath "Programación Avanzada"
+Quiz;QZ004;Conceptos Avanzados de Programación;Comprender conceptos avanzados de memoria y eficiencia;3;45;Pregunta:¿Qué es la complejidad temporal de QuickSort?|Opciones:O(n log n),O(n^2)|Respuesta:O(n log n)
+Tarea;TA005;Proyecto de Optimización;Implementar algoritmos de optimización en un proyecto final;3;90;Desarrollo de un proyecto de optimización de algoritmos
+Quiz;QZ005;Estructuras de Datos Avanzadas;Entender estructuras de datos complejas;3;40;Pregunta:¿Cuál es una estructura de datos jerárquica?|Opciones:Árbol,Lista|Respuesta:Árbol
+Tarea;TA006;Ejercicio de Árboles Binarios;Aplicar árboles binarios en problemas de programación;3;60;Implementación de árboles binarios en programación avanzada
+
+# Otro LearningPath
+LearningPath;Inteligencia Artificial Básica;Introducción a conceptos de IA;2;180;4.7;Comprender los fundamentos de inteligencia artificial
+
+# Actividades en el LearningPath "Inteligencia Artificial Básica"
+Quiz;QZ006;Fundamentos de IA;Introducción a conceptos básicos de inteligencia artificial;2;30;Pregunta:¿Qué es el aprendizaje supervisado?|Opciones:Tipo de aprendizaje automático,Técnica de programación|Respuesta:Tipo de aprendizaje automático
+Tarea;TA007;Proyecto de IA Básica;Desarrollar un proyecto simple de IA;2;60;Implementación de un modelo básico de clasificación
+Quiz;QZ007;Redes Neuronales;Entender las redes neuronales artificiales;2;45;Pregunta:¿Qué es una neurona artificial?|Opciones:Unidad básica de red neuronal,Algoritmo de optimización|Respuesta:Unidad básica de red neuronal
+Tarea;TA008;Ejercicio de Redes Neuronales;Práctica en la creación de redes neuronales simples;2;45;Construcción de una red neuronal de una capa
