@@ -14,9 +14,10 @@ public abstract class Actividad implements Cloneable {  // Implementa Cloneable 
     private String estado;
     private List<Actividad> prerrequisitos;  // Lista de actividades que son prerrequisitos
     private LearningPaths learningPath;  // La ruta de aprendizaje a la que pertenece la actividad
+    private int calificacion;
 
     // Constructor de Actividad
-    public Actividad(String descripcion, String objetivo, int nivelDificultad, int duracionMinutos, String ID, String estado, List<Actividad> prerrequisitos, LearningPaths learningPath) {
+    public Actividad(String descripcion, String objetivo, int nivelDificultad, int duracionMinutos, String ID, String estado, List<Actividad> prerrequisitos, LearningPaths learningPath, int calificacion) {
         this.descripcion = descripcion;
         this.objetivo = objetivo;
         this.nivelDificultad = nivelDificultad;
@@ -25,6 +26,7 @@ public abstract class Actividad implements Cloneable {  // Implementa Cloneable 
         this.estado = estado;
         this.prerrequisitos = prerrequisitos;  // Inicializamos la lista de prerrequisitos
         this.learningPath = learningPath;  // Asociamos la ruta de aprendizaje a la actividad
+        this.calificacion = calificacion;
     }
 
     // Método abstracto que debe implementarse en las subclases
@@ -113,4 +115,9 @@ public abstract class Actividad implements Cloneable {  // Implementa Cloneable 
     public void setLearningPath(LearningPaths learningPath) {
         this.learningPath = learningPath;
     }
+
+	public void setCalificacion(int calificacion) {
+		this.calificacion = calificacion;
+		
+	}
 }
