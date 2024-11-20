@@ -3,6 +3,7 @@ package Actividades;
 import learningpaths.LearningPaths;
 import proyecto1.estudiante.Estudiante;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Actividad implements Cloneable {  // Implementa Cloneable para soportar la clonación
@@ -34,20 +35,33 @@ public abstract class Actividad implements Cloneable {  // Implementa Cloneable 
 
     // Método para verificar si la actividad ha sido completada por un estudiante
     public boolean estaCompletadaPor(Estudiante estudiante) {
-        return "Completado".equals(this.estado);  // Verificamos si el estado es "Completado"
+        // Si el estado de la actividad es "Completado", devuelve true
+        return "Completado".equals(this.estado);
     }
+    public boolean tienePrerrequisitos() {
+        return prerrequisitos != null && !prerrequisitos.isEmpty();
+    }
+
 
     // Implementación del método clone
     @Override
     public Actividad clone() {
         try {
-            // Hacemos una clonación superficial
-            return (Actividad) super.clone();
+            Actividad cloned = (Actividad) super.clone();
+            // Realiza una copia profunda de los prerrequisitos
+            if (this.prerrequisitos != null) {
+                cloned.prerrequisitos = new ArrayList<>(this.prerrequisitos.size());
+                for (Actividad actividad : this.prerrequisitos) {
+                    cloned.prerrequisitos.add(actividad.clone());
+                }
+            }
+            return cloned;
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();
             return null;
         }
     }
+
 
     // Método para obtener los prerrequisitos de una actividad
     public List<Actividad> getPrerrequisitos() {
@@ -89,6 +103,7 @@ public abstract class Actividad implements Cloneable {  // Implementa Cloneable 
     }
 
     public void setNivelDificultad(int nivelDificultad) {
+        if (nivelDificultad < 0) throw new IllegalArgumentException("El nivel de dificultad no puede ser negativo.");
         this.nivelDificultad = nivelDificultad;
     }
 
@@ -97,6 +112,7 @@ public abstract class Actividad implements Cloneable {  // Implementa Cloneable 
     }
 
     public void setDuracionMinutos(int duracionMinutos) {
+        if (duracionMinutos <= 0) throw new IllegalArgumentException("La duración debe ser mayor a cero.");
         this.duracionMinutos = duracionMinutos;
     }
 
@@ -113,8 +129,15 @@ public abstract class Actividad implements Cloneable {  // Implementa Cloneable 
     }
 
     public void setLearningPath(LearningPaths learningPath) {
+        if (learningPath == null) throw new IllegalArgumentException("El LearningPath no puede ser nulo.");
         this.learningPath = learningPath;
     }
+
+    
+    public int getCalificacion() {
+        return calificacion;
+    }
+
 
 	public void setCalificacion(int calificacion) {
 		this.calificacion = calificacion;

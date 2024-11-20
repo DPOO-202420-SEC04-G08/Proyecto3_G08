@@ -21,21 +21,34 @@ public class ProgresoEstudiante implements Serializable {
     }
 
     // Método para inscribir al estudiante en una ruta de aprendizaje
+    private static final boolean DEBUG = false; // Cambia a 'true' para habilitar mensajes
+
     public void inscribirLearningPath(LearningPaths path) {
-        // Inicializamos el progreso en 0 para esta ruta
-        progresoEnRutas.put(path, 0.0);
-        System.out.println("Estudiante " + estudiante.getNombre() + " inscrito en la ruta: " + path.getTitulo());
+        if (!progresoEnRutas.containsKey(path)) {
+            progresoEnRutas.put(path, 0.0);
+            if (DEBUG) {
+                System.out.println("Estudiante " + estudiante.getNombre() + " inscrito en la ruta: " + path.getTitulo());
+            }
+        }
     }
+
+
 
     // Método para actualizar el progreso del estudiante en una actividad
     public void actualizarProgreso(Actividad actividad) {
         LearningPaths learningPath = actividad.getLearningPath();
-        // Calculamos el nuevo progreso basado en el número de actividades
+        if (learningPath == null) {
+            throw new IllegalArgumentException("La actividad no está asociada a un LearningPath.");
+        }
+
+        // Calcula progreso en base a actividades realizadas
         double progresoActual = progresoEnRutas.getOrDefault(learningPath, 0.0);
         double nuevoProgreso = progresoActual + (1.0 / learningPath.getActividades().size()) * 100;
-        progresoEnRutas.put(learningPath, Math.min(nuevoProgreso, 100.0));  // No permitimos más de 100%
-        System.out.println("Progreso actualizado en la ruta " + learningPath.getTitulo() + ": " + progresoEnRutas.get(learningPath) + "%");
+        progresoEnRutas.put(learningPath, Math.min(nuevoProgreso, 100.0)); // Máximo 100%
+        calificaciones.put(actividad, 100.0); // Marca la actividad como completada
     }
+
+
 
     // Método para verificar si el estudiante ha completado todas las actividades de la ruta
     public boolean haCompletadoRuta(LearningPaths path) {
@@ -67,4 +80,15 @@ public class ProgresoEstudiante implements Serializable {
     public double getProgresoEnRuta(LearningPaths path) {
         return progresoEnRutas.getOrDefault(path, 0.0);
     }
+
+
+    public String getEstadoActividad(Actividad actividad) {
+        // Supongamos que calificaciones almacena los estados de las actividades
+        if (!calificaciones.containsKey(actividad)) {
+            return "No iniciado"; // Actividad no encontrada
+        }
+        double calificacion = calificaciones.get(actividad);
+        return calificacion >= 60 ? "Completado" : "En progreso"; //  basado en calificación
+    }
+
 }

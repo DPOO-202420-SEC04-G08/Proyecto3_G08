@@ -7,35 +7,39 @@ public class Tarea extends Actividad {
     private String respuestaEstudiante;
     private int calificacion;
 
-    // Constructor modificado que incluye el parámetro LearningPath
-    public Tarea(String descripcion, String objetivo, int nivelDificultad, int duracionMinutos, String ID, List<Actividad> prerrequisitos, LearningPaths learningPath) {
-        super(descripcion, objetivo, nivelDificultad, duracionMinutos, ID, "Pendiente", prerrequisitos, learningPath);  // El estado se pasa como "Pendiente" al constructor de Actividad
-        this.calificacion = -1; // Inicialmente sin calificar
+    // Constructor modificado que incluye el parámetro LearningPath y calificación
+    public Tarea(String descripcion, String objetivo, int nivelDificultad, int duracionMinutos, 
+                 String ID, List<Actividad> prerrequisitos, LearningPaths learningPath) {
+        super(descripcion, objetivo, nivelDificultad, duracionMinutos, ID, "Pendiente", prerrequisitos, learningPath, 0); 
+        this.calificacion = 0; // Inicialmente sin calificar
     }
 
     // Método para que el estudiante envíe la tarea
     public void enviarTarea(String respuesta) {
+        if (respuesta == null || respuesta.isEmpty()) {
+            throw new IllegalArgumentException("La respuesta no puede ser nula o vacía.");
+        }
         this.respuestaEstudiante = respuesta;
-        setEstado("Enviada");  // Usamos setEstado() de la clase padre
+        setEstado("Enviada");
     }
 
     // Método para que el profesor califique la tarea
     public void calificarTarea(int calificacion) {
-        if ("Enviada".equals(getEstado())) {  // Usamos getEstado() de la clase padre
-            if (calificacion >= 0 && calificacion <= 100) {  // Aseguramos que la calificación sea válida
+        if ("Enviada".equals(getEstado())) {
+            if (calificacion >= 0 && calificacion <= 100) {
                 this.calificacion = calificacion;
-                setEstado("Calificada");  // Cambiamos el estado a "Calificada"
+                setEstado("Calificada");
             } else {
-                System.out.println("La calificación debe estar entre 0 y 100.");
+                throw new IllegalArgumentException("La calificación debe estar entre 0 y 100.");
             }
         } else {
-            System.out.println("La tarea debe ser enviada antes de calificarla.");
+            throw new IllegalStateException("La tarea debe ser enviada antes de calificarla.");
         }
     }
 
     @Override
     public String obtenerResultado() {
-        if ("Calificada".equals(getEstado())) {  // Usamos getEstado() de la clase padre
+        if ("Calificada".equals(getEstado())) {
             return "Calificación obtenida: " + calificacion + "/100";
         } else if ("Enviada".equals(getEstado())) {
             return "Tarea enviada, pendiente de calificación.";

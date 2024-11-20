@@ -15,11 +15,11 @@ public class LearningPaths {
     private List<Actividad> actividades;  // Lista de actividades
     private String objetivo; 
     private String version;
-    private int idLearningPath;
+    private String idLearningPath;
 	private LocalDate fechaModificacion;
 
     // Constructor de LearningPaths
-    public LearningPaths(String titulo, String descripcion, int nivelDificultad, int duracion, float rating, String objetivo, LocalDate fechaCreacion, LocalDate fechaModificacion, String version, int idLearningPath) {
+    public LearningPaths(String titulo, String descripcion, int nivelDificultad, int duracion, float rating, String objetivo, LocalDate fechaCreacion, LocalDate fechaModificacion, String version, String idLearningPath) {
         this.titulo = titulo;
         this.descripcion = descripcion;
         this.nivelDificultad = nivelDificultad;
@@ -127,11 +127,11 @@ public class LearningPaths {
         this.version = version;
     }
 
-    public int getIdLearningPath() {
+    public String getIdLearningPath() {
         return idLearningPath;
     }
 
-    public void setIdLearningPath(int idLearningPath) {
+    public void setIdLearningPath(String idLearningPath) {
         this.idLearningPath = idLearningPath;
     }
 }

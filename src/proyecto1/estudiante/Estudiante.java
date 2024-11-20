@@ -44,13 +44,17 @@ public class Estudiante extends Usuario {
 
     // Método para inscribirse en una ruta de aprendizaje (LearningPath)
     public void inscribirLearningPath(LearningPaths path) {
-        progreso.inscribirLearningPath(path);  // Inscribir el estudiante y crear su progreso en la ruta
-        System.out.println("Inscripción realizada en el Learning Path: " + path.getTitulo());
+        if (progreso.getProgresoEnRuta(path) == 0.0) {  // Verificar si ya está inscrito
+            progreso.inscribirLearningPath(path);
+            System.out.println("Inscripción realizada en el Learning Path: " + path.getTitulo());
+        }
     }
+
 
     // Método para realizar una actividad y actualizar el progreso
     public void realizarActividad(Actividad actividad) {
-        progreso.actualizarProgreso(actividad);  // Actualizamos el progreso en la actividad
+        progreso.actualizarProgreso(actividad); // Actualiza el progreso en ProgresoEstudiante
+        System.out.println("Actividad realizada: " + actividad.getDescripcion());
     }
 
     // Método para obtener el progreso del estudiante
@@ -66,4 +70,13 @@ public class Estudiante extends Usuario {
     public String toString() {
         return "Estudiante{" + super.toString() + "}";
     }
+ 
+    public String getProgresoEnActividad(Actividad actividad) {
+        // Usa un objeto ProgresoEstudiante para obtener el estado de la actividad
+        if (progreso == null || actividad == null) {
+            return "No iniciado"; // Devuelve un valor por defecto si no hay progreso
+        }
+        return progreso.getEstadoActividad(actividad); // Delegamos la lógica al objeto ProgresoEstudiante
+    }
+
 }

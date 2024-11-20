@@ -1,53 +1,62 @@
 package Actividades;
-import learningpaths.LearningPaths;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class QuizVerdaderoFalso extends Actividad {
-    private List<PreguntaVerdaderoFalso> preguntas;
-    private int puntajeObtenido;
+public class QuizVerdaderoFalso extends Quiz {
+    private List<Boolean> respuestasCorrectas; // Lista de respuestas correctas (true/false)
 
-    public QuizVerdaderoFalso(String descripcion, String objetivo, int nivelDificultad, int duracionMinutos, String ID, String estado, List<Actividad> actividad, LearningPaths learningPath) {
-        super(descripcion, objetivo, nivelDificultad, duracionMinutos, ID, estado, actividad, learningPath);
-        this.preguntas = new ArrayList<>();
-        this.puntajeObtenido = 0;
-    }
-
-    // Método para agregar preguntas al quiz
-    public void agregarPregunta(PreguntaVerdaderoFalso pregunta) {
-        preguntas.add(pregunta);
-    }
-
-    // Método para responder una pregunta
-    public void responderPregunta(int indicePregunta, boolean respuesta) {
-        if (indicePregunta >= 0 && indicePregunta < preguntas.size()) {
-            PreguntaVerdaderoFalso pregunta = preguntas.get(indicePregunta);
-            if (pregunta.getRespuestaCorrecta() == respuesta) {
-                puntajeObtenido++;
-            }
-        } else {
-            System.out.println("Índice de pregunta inválido.");
+    // Constructor
+    public QuizVerdaderoFalso(String descripcion, String objetivo, int nivelDificultad, int duracionMinutos,
+                              String ID, String estado, List<Actividad> prerrequisitos, int puntajeMinimo,
+                              List<Pregunta> preguntas, List<Boolean> respuestasCorrectas, int calificacion) {
+        super(descripcion, objetivo, nivelDificultad, duracionMinutos, ID, estado, prerrequisitos, puntajeMinimo, preguntas, calificacion);
+        
+        if (respuestasCorrectas == null || respuestasCorrectas.size() != preguntas.size()) {
+            throw new IllegalArgumentException("Las respuestas correctas deben coincidir con el número de preguntas.");
         }
+        this.respuestasCorrectas = respuestasCorrectas;
     }
 
-    // Método para calcular el resultado
-    public String calcularResultado() {
-        int totalPreguntas = preguntas.size();
-        return "Puntaje obtenido: " + puntajeObtenido + " / " + totalPreguntas + " (" + (puntajeObtenido * 100 / totalPreguntas) + "%)";
+    // Método para evaluar las respuestas del estudiante
+    public boolean evaluar(List<Boolean> respuestasEstudiante) {
+        if (respuestasEstudiante == null || respuestasCorrectas == null) {
+            throw new IllegalArgumentException("Las respuestas no pueden ser nulas.");
+        }
+        if (respuestasEstudiante.size() != respuestasCorrectas.size()) {
+            throw new IllegalArgumentException("El número de respuestas no coincide con las preguntas.");
+        }
+
+        int puntaje = 0;
+        for (int i = 0; i < respuestasCorrectas.size(); i++) {
+            if (respuestasCorrectas.get(i).equals(respuestasEstudiante.get(i))) {
+                puntaje += getPreguntas().get(i).getPuntaje(); // Sumar puntaje si la respuesta es correcta
+            }
+        }
+
+        actualizarEstado(puntaje);
+        return puntaje >= getPuntajeMinimo();
+    }
+
+    // Método privado para actualizar estado y puntaje
+    private void actualizarEstado(int puntaje) {
+        setEstado(puntaje >= getPuntajeMinimo() ? "Aprobado" : "No Aprobado");
+        setPuntajeObtenido(puntaje);
+    }
+
+    // Getters y setters
+    public List<Boolean> getRespuestasCorrectas() {
+        return respuestasCorrectas;
+    }
+
+    public void setRespuestasCorrectas(List<Boolean> respuestasCorrectas) {
+        if (respuestasCorrectas == null || respuestasCorrectas.size() != getPreguntas().size()) {
+            throw new IllegalArgumentException("Las respuestas correctas deben coincidir con el número de preguntas.");
+        }
+        this.respuestasCorrectas = respuestasCorrectas;
     }
 
     @Override
     public String obtenerResultado() {
-        return calcularResultado();
-    }
-
-    // Getters y setters
-    public List<PreguntaVerdaderoFalso> getPreguntas() {
-        return preguntas;
-    }
-
-    public int getPuntajeObtenido() {
-        return puntajeObtenido;
+        return "Puntaje obtenido: " + getPuntajeObtenido() + ", Estado: " + getEstado();
     }
 }
