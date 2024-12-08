@@ -118,7 +118,8 @@ public class AppMainGUI extends JFrame {
             String name = nameField.getText();
             String email = emailField.getText();
             String password = new String(passwordField.getPassword());
-            String role = studentRadio.isSelected() ? "Estudiante" : "Profesor";
+            @SuppressWarnings("unused")
+			String role = studentRadio.isSelected() ? "Estudiante" : "Profesor";
 
             if (name.isEmpty() || email.isEmpty() || password.isEmpty() || (!studentRadio.isSelected() && !professorRadio.isSelected())) {
                 JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos", "Error", JOptionPane.ERROR_MESSAGE);
@@ -169,13 +170,18 @@ public class AppMainGUI extends JFrame {
         JButton loginButton = new JButton("Iniciar Sesión");
         loginButton.setAlignmentX(CENTER_ALIGNMENT);
         loginButton.addActionListener(e -> {
-            String email = emailField.getText();
-            String password = new String(passwordField.getPassword());
+            @SuppressWarnings("unused")
+			String email = emailField.getText();
+            @SuppressWarnings("unused")
+			String password = new String(passwordField.getPassword());
             JOptionPane.showMessageDialog(this, "Inicio de sesión exitoso", "Éxito", JOptionPane.INFORMATION_MESSAGE);
             showPanel("MainMenu");
         });
         loginPanel.add(loginButton);
 
+        // Creaciion de panel de profesor
+        mainPanel.add(new ProfesorPanel(this), "ProfesorPanel");
+        
         // Botón de volver
         JButton backButton = new JButton("Volver");
         backButton.setAlignmentX(CENTER_ALIGNMENT);
