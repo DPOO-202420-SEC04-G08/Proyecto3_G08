@@ -221,6 +221,7 @@ public class AppMainGUI extends JFrame {
                     valid = true;
                     JOptionPane.showMessageDialog(this, "Inicio de sesión exitoso como " + usuario.getRol(), "Éxito", JOptionPane.INFORMATION_MESSAGE);
                     showPanel(usuario.getRol().equals("Profesor") ? "ProfesorPanel" : "MainMenu");
+                    showPanel(usuario.getRol().equals("Estudiante") ? "EstudiantePanel" : "MainMenu");
                     break;
                 }
             }
