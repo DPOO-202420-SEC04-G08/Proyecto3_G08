@@ -9,6 +9,9 @@ import proyecto1.usuario.Usuario;
 import java.util.List;
 import java.util.ArrayList;
 import javax.swing.*;
+
+import learningpaths.LearningPaths;
+
 import java.awt.*;
 import java.io.IOException;
 
@@ -16,8 +19,9 @@ import java.io.IOException;
 public class AppMainGUI extends JFrame {
     private CardLayout cardLayout;
     private JPanel mainPanel;
-    private List<Usuario> usuarios; // Lista de usuarios
-    private IPersistenciaUsuarios persistencia; // Persistencia de usuarios
+    private List<Usuario> usuarios; 
+    private IPersistenciaUsuarios persistencia; 
+    private List<LearningPaths> learningPaths;
 
     public AppMainGUI(IPersistenciaUsuarios persistencia) {
         this.persistencia = persistencia;
@@ -44,6 +48,7 @@ public class AppMainGUI extends JFrame {
         mainPanel.add("Registro", createRegistroPanel());
         mainPanel.add("Login", createLoginPanel());
         mainPanel.add("ProfesorPanel", new ProfesorPanel(this)); 
+        mainPanel.add(new EstudiantePanel(this), "EstudiantePanel");
 
         add(mainPanel);
     }
@@ -143,17 +148,17 @@ public class AppMainGUI extends JFrame {
                 if (role.equals("Estudiante")) {
                     // Crear un nuevo estudiante
                     nuevoUsuario = new Estudiante(
-                        "E" + System.currentTimeMillis(), // ID único basado en el tiempo
-                        "Estudiante", // Nombre genérico para el ejemplo
+                        "E" + System.currentTimeMillis(), 
+                        "Estudiante", 
                         email, 
                         password, 
-                        List.of("Sin intereses") // Lista de intereses vacía por defecto
+                        List.of("Sin intereses") 
                     );
                 } else {
                     // Crear un nuevo profesor
                     nuevoUsuario = new Profesor(
-                        "P" + System.currentTimeMillis(), // ID único basado en el tiempo
-                        "Profesor", // Nombre genérico para el ejemplo
+                        "P" + System.currentTimeMillis(), 
+                        "Profesor", 
                         email, 
                         password
                     );
@@ -162,7 +167,7 @@ public class AppMainGUI extends JFrame {
                 // Agregar a la lista de usuarios y guardar en archivo
                 usuarios.add(nuevoUsuario);
                 try {
-                    persistencia.salvarUsuarios("usuarios.bin", usuarios); // Guardar usuarios en archivo binario
+                    persistencia.salvarUsuarios("usuarios.bin", usuarios); 
                     JOptionPane.showMessageDialog(this, "Usuario registrado exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
                     showPanel("MainMenu");
                 } catch (IOException ex) {
@@ -236,7 +241,9 @@ public class AppMainGUI extends JFrame {
         return loginPanel;
     }
     
-    
+    public List<LearningPaths> getLearningPaths() {
+        return learningPaths;
+    }
 
     public static void main(String[] args) {
         IPersistenciaUsuarios persistencia = new PersistenciaUsuariosBinario(); 
